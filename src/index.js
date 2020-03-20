@@ -336,7 +336,7 @@ const callJava = async function(option, key, msg, cipher, element) {
   let output;
   const childFun = async path => {
     const { stderr, stdout } = await exec(
-      `java -cp ${path} ${cipher} ${option} ${key} ${msg}`
+      `java -cp "${path}" "${cipher}" "${option}" "${key}" "${msg}"`
     );
 
     output = stdout.split("Res: ");
@@ -347,7 +347,6 @@ const callJava = async function(option, key, msg, cipher, element) {
     }
 
     if (stderr) {
-      showAlert(stderr);
       return;
     }
 
@@ -367,11 +366,13 @@ const callJava = async function(option, key, msg, cipher, element) {
       return await childFun(`${process.resourcesPath}/extraResources/`);
     }
   } catch (e) {
-    // should contain code (exit code) and signal (that caused the termination).
-    console.error(e);
-    showAlert(
-      "Something went wrong ! 😞\nPlease install Java and set System variables->Path/ for Java executables!"
-    );
+    let error =
+      "Something went wrong ! 😞\n" +
+      e.message +
+      "\n\nPlease install Java\nSet System variables path for Java executables\nAnd restart your system! 😓";
+
+    console.log(error);
+    showAlert("Something went wrong ! 😞", "error");
   }
 };
 
@@ -387,7 +388,7 @@ const callJavaFile = async (
   let output;
   const childFun = async path => {
     const { stderr, stdout } = await exec(
-      `java -cp ${path} ${cipher} "${option}" "${key}" "${fileName}" "${outputFileName}.txt" "${dir}"`
+      `java -cp "${path}" "${cipher}" "${option}" "${key}" "${fileName}" "${outputFileName}.txt" "${dir}"`
     );
 
     output = stdout.split("Res: ");
@@ -398,7 +399,6 @@ const callJavaFile = async (
     }
 
     if (stderr) {
-      showAlert(stderr);
       return;
     }
     output = output[1].split(" ");
@@ -413,15 +413,19 @@ const callJavaFile = async (
       return await childFun(`${process.resourcesPath}/extraResources/`);
     }
   } catch (e) {
-    // should contain code (exit code) and signal (that caused the termination).
-    console.error(e);
-    showAlert("Something went wrong ! 😞");
+    let error =
+      "Something went wrong ! 😞\n" +
+      e.message +
+      "\n\nPlease install Java\nSet System variables path for Java executables\nAnd restart your system! 😓";
+
+    console.log(error);
+    showAlert("Something went wrong ! 😞", "error");
   }
 };
 
 // show native alert window
-const showAlert = msg => {
-  ipcRenderer.send("showAlert", msg);
+const showAlert = (msg, type) => {
+  ipcRenderer.send("showAlert", msg, type);
 };
 
 // gerates chart

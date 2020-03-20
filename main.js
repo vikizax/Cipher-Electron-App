@@ -24,21 +24,7 @@ function createWindow() {
     // // Open the DevTools.
     win.webContents.openDevTools();
   }
-
-  // const menu = Menu.buildFromTemplate([
-  //   {
-  //     label: "Menu",
-  //     submenu: [
-  //       { type: "separator" },
-  //       {
-  //         label: "Exit",
-  //         click() {
-  //           app.quit();
-  //         }
-  //       }
-  //     ]
-  //   }
-  // ]);
+  win.webContents.openDevTools();
 
   Menu.setApplicationMenu(null);
 }
@@ -65,12 +51,14 @@ app.on("activate", () => {
   }
 });
 
-ipcMain.on("showAlert", (event, msg) => {
+ipcMain.on("showAlert", (event, msg, type) => {
+  console.log(msg, type);
+  msg = typeof msg !== "string" ? "somthing not right" : msg;
   const { dialog } = require("electron");
-
+  type = type ? type : "info";
   dialog.showMessageBox(win, {
     title: "Cipher",
     message: msg,
-    type: "info"
+    type: type
   });
 });
