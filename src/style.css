@@ -1,0 +1,433 @@
+:root {
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  --text-primary: #b6b6b6;
+  --text-secondary: #ececec;
+  --bg-primary: #23232e;
+  --bg-secondary: #141418;
+  --transition-speed: 600ms;
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  color: black;
+  background-color: #ebecf0;
+}
+
+body::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+body::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #6649b8;
+}
+
+main {
+  margin-left: 5rem;
+}
+
+.navbar {
+  position: fixed;
+  background-color: var(--bg-primary);
+  transition: width 600ms ease;
+}
+
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-item {
+  width: 100%;
+}
+
+.nav-item:last-child {
+  margin-top: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  height: 5rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  filter: grayscale(100%) opacity(0.7);
+  transition: var(--transition-speed);
+}
+
+.nav-link:hover {
+  filter: grayscale(0%) opacity(1);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}
+
+.link-text {
+  display: none;
+  margin-left: 1rem;
+}
+
+.nav-link svg {
+  width: 2rem;
+  min-width: 2rem;
+  margin: 0 1.5rem;
+}
+
+.svg-inline--fa {
+  color: #df49a6;
+}
+
+.logo {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  font-size: 1.5rem;
+  letter-spacing: 0.3ch;
+  width: 100%;
+  cursor: none;
+}
+
+.logo svg {
+  transform: rotate(0deg);
+  transition: var(--transition-speed);
+}
+
+.logo-text {
+  display: inline;
+  position: absolute;
+  left: -999px;
+  transition: var(--transition-speed);
+}
+
+.navbar:hover .logo svg {
+  transform: rotate(-180deg);
+}
+
+/* Small screens */
+@media only screen and (max-width: 860px) {
+  .navbar {
+    bottom: 0;
+    width: 100vw;
+    height: 5rem;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+  }
+
+  .nav-link {
+    justify-content: center;
+  }
+
+  .nocursor {
+    cursor: none;
+  }
+
+  main {
+    margin: 0 0 5rem 0;
+  }
+
+  .tooltiptext {
+    visibility: hidden;
+    width: 20vw;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0px;
+    font-size: 0.8rem;
+
+    position: absolute;
+    bottom: 5rem;
+    z-index: 1;
+  }
+
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: black transparent transparent transparent;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  #performance-section {
+    height: 100%;
+    width: 80%;
+    margin: auto;
+  }
+
+  #performance-section .box-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .box-1 {
+    width: 100%;
+  }
+
+  .box-5 {
+    width: 100%;
+  }
+
+  .file-mode {
+    width: 90%;
+  }
+}
+
+@keyframes text-animate {
+  from {
+    opacity: 0;
+    transform: translateX(-80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+/* Large screens */
+@media only screen and (min-width: 860px) {
+  .navbar {
+    top: 0;
+    width: 5rem;
+    height: 100vh;
+  }
+
+  .navbar:hover {
+    width: 16rem;
+  }
+
+  .link-text {
+    display: none;
+  }
+
+  .navbar:hover .link-text {
+    display: inline;
+    animation: text-animate 0.5s ease;
+  }
+
+  .navbar:hover .logo svg {
+    margin-left: 11rem;
+  }
+
+  .navbar:hover .logo-text {
+    left: 0px;
+  }
+
+  .tooltiptext {
+    display: none;
+  }
+
+  .box-1 {
+    width: 60%;
+    margin: auto;
+  }
+
+  .cta .btn {
+    width: 8rem;
+  }
+
+  .box-5 {
+    width: 50%;
+  }
+
+  .file-mode {
+    width: 80%;
+  }
+}
+
+div,
+p {
+  color: #babecc;
+  text-shadow: 1px 1px 1px #fff;
+}
+
+form {
+  padding: 16px;
+  width: 80%;
+  margin: auto;
+  text-align: center;
+}
+
+h2 {
+  color: #babecc;
+  font-weight: 500;
+  text-decoration: underline;
+  text-transform: uppercase;
+}
+
+.hill-cipher {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 500;
+  font-size: 22px;
+}
+
+.btn,
+input,
+textarea {
+  border: 0px;
+  outline: 0;
+  border-radius: 320px;
+  padding: 16px;
+  background-color: #ebecf0;
+  text-shadow: 1px 1px 0 #fff;
+  box-shadow: -5px -5px 20px #fff, 5px 5px 5px #babecc;
+  width: 100%;
+  margin-top: 0.3rem;
+}
+
+.btn {
+  color: #61677c;
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: -2px -2px 5px #fff, 2px 2px 5px #babecc;
+}
+
+.btn:active {
+  box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
+}
+
+hr {
+  margin-top: 1.5rem;
+  height: 10px;
+  border-radius: 320px;
+  color: #61677c;
+  box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+}
+
+input,
+textarea {
+  text-align: center;
+  text-transform: uppercase;
+  resize: vertical;
+  font-family: "Poppins", sans-serif;
+  box-shadow: inset 2px 2px 5px #babecc, inset -5px -5px 10px #fff;
+  transition: all 0.2s ease-in-out;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+input:focus,
+textarea:focus {
+  box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
+}
+
+.active {
+  display: block;
+}
+
+.inactive {
+  display: none !important;
+}
+
+.box-1 {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.box-1 h2 {
+  margin-top: 1rem;
+}
+
+.box-1 a {
+  margin-top: 0.5rem;
+  text-decoration: none;
+}
+
+.box-5 {
+  margin: auto;
+  padding: 2rem 1rem 1rem;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.cta a {
+  text-decoration: none;
+  text-align: center;
+  margin: 1rem;
+  padding: 0.5rem;
+}
+
+.btn-active,
+.btn-active:hover {
+  box-shadow: inset 1px 1px 2px #babecc, inset -1px -1px 2px #fff;
+  cursor: default;
+}
+
+.file-mode {
+  display: flex;
+  text-align: center;
+  justify-content: flex-end;
+  position: absolute;
+  margin-top: 0.2rem;
+}
+
+button.btn {
+  width: 4rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+label.btn {
+  font-size: 16px;
+  margin: 0.5rem 0;
+}
+
+.regular {
+  text-transform: none;
+}
