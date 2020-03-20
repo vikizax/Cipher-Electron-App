@@ -312,14 +312,23 @@ const validateFileSelector = e => {
 
 // set encrypt file state
 const encryptFileState = (name, dir) => {
-  fileNameEncrypt = name.trim();
-  fileEncryptDir = dir.trim();
+  dir = dir.trim();
+  name = name.trim();
+  fileNameEncrypt = name;
+
+  fileEncryptDir = dir.endsWith("\\")
+    ? dir.trim().slice(0, dir.lastIndexOf("\\"))
+    : dir.trim();
 };
 
 // set decrypt file state
 const decryptFileState = (name, dir) => {
-  fileNameDecrypt = name.trim();
-  fileDecryptDir = dir.trim();
+  dir = dir.trim();
+  name = name.trim();
+  fileNameDecrypt = name;
+  fileDecryptDir = dir.endsWith("\\")
+    ? dir.trim().slice(0, dir.lastIndexOf("\\"))
+    : dir.trim();
 };
 
 // spawn child process to call java program for input mode
@@ -562,7 +571,7 @@ hillEncrypt.addEventListener("click", async e => {
       showAlert("Key or Output File Name cannot be empty! 🤚");
       return;
     }
-
+    console.log(fileEncryptDir);
     let result = await callJavaFile(
       3,
       keyTextEncrypt.value.replace(/\s+/g, ""),
@@ -1024,7 +1033,6 @@ performanceAction.addEventListener("click", async e => {
     "Seconds",
     "CPU USAGE TIME"
   );
-
 });
 
 cpuBtn.addEventListener("click", e => {
