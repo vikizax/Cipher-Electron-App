@@ -10,7 +10,7 @@
   "author": "Vivek Chetia",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^8.0.2",
+    "electron": "^8.1.1",
     "electron-builder": "^22.4.1"
   },
   "dependencies": {
