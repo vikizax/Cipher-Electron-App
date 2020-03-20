@@ -369,7 +369,9 @@ const callJava = async function(option, key, msg, cipher, element) {
   } catch (e) {
     // should contain code (exit code) and signal (that caused the termination).
     console.error(e);
-    showAlert("Something went wrong ! 😞");
+    showAlert(
+      "Something went wrong ! 😞\nPlease install Java and set System variables->Path/ for Java executables!"
+    );
   }
 };
 
