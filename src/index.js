@@ -366,12 +366,6 @@ const callJava = async function(option, key, msg, cipher, element) {
       return await childFun(`${process.resourcesPath}/extraResources/`);
     }
   } catch (e) {
-    let error =
-      "Something went wrong ! 😞\n" +
-      e.message +
-      "\n\nPlease install Java\nSet System variables path for Java executables\nAnd restart your system! 😓";
-
-    console.log(error);
     showAlert("Something went wrong ! 😞", "error");
   }
 };
@@ -413,12 +407,6 @@ const callJavaFile = async (
       return await childFun(`${process.resourcesPath}/extraResources/`);
     }
   } catch (e) {
-    let error =
-      "Something went wrong ! 😞\n" +
-      e.message +
-      "\n\nPlease install Java\nSet System variables path for Java executables\nAnd restart your system! 😓";
-
-    console.log(error);
     showAlert("Something went wrong ! 😞", "error");
   }
 };
@@ -577,7 +565,6 @@ hillEncrypt.addEventListener("click", async e => {
       showAlert("Key or Output File Name cannot be empty! 🤚");
       return;
     }
-    console.log(fileEncryptDir);
     let result = await callJavaFile(
       3,
       keyTextEncrypt.value.replace(/\s+/g, ""),

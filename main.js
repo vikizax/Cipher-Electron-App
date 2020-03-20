@@ -24,8 +24,6 @@ function createWindow() {
     // // Open the DevTools.
     win.webContents.openDevTools();
   }
-  win.webContents.openDevTools();
-
   Menu.setApplicationMenu(null);
 }
 
@@ -52,8 +50,7 @@ app.on("activate", () => {
 });
 
 ipcMain.on("showAlert", (event, msg, type) => {
-  console.log(msg, type);
-  msg = typeof msg !== "string" ? "somthing not right" : msg;
+  msg = typeof msg !== "string" ? "Ops Something really wrong ! 😩" : msg;
   const { dialog } = require("electron");
   type = type ? type : "info";
   dialog.showMessageBox(win, {
