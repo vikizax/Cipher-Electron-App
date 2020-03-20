@@ -1014,6 +1014,31 @@ performanceAction.addEventListener("click", async e => {
     "VigenereCipher"
   );
 
+  console.log(resultArr);
+
+  // round values
+  // total execution time
+  resultArr[0][0] = parseFloat(resultArr[0][0]).toPrecision(2);
+  resultArr[1][0] = parseFloat(resultArr[1][0]).toPrecision(2);
+  resultArr[2][0] = parseFloat(resultArr[2][0]).toPrecision(2);
+  resultArr[3][0] = parseFloat(resultArr[3][0]).toPrecision(2);
+
+  // memory usage
+  resultArr[0][1] = parseFloat(resultArr[0][1]).toPrecision(4);
+  resultArr[1][1] = parseFloat(resultArr[1][1]).toPrecision(4);
+  resultArr[2][1] = parseFloat(resultArr[2][1]).toPrecision(4);
+  resultArr[3][1] = parseFloat(resultArr[3][1]).toPrecision(4);
+
+  // cpu usage time
+  resultArr[0][2] =
+    Math.round((parseFloat(resultArr[0][2]) + Number.EPSILON) * 100) / 100;
+  resultArr[1][2] =
+    Math.round((parseFloat(resultArr[1][2]) + Number.EPSILON) * 100) / 100;
+  resultArr[2][2] =
+    Math.round((parseFloat(resultArr[2][2]) + Number.EPSILON) * 100) / 100;
+  resultArr[3][2] =
+    Math.round((parseFloat(resultArr[3][2]) + Number.EPSILON) * 100) / 100;
+
   cpuBtn.classList.add("btn-active");
   memoryBtn.classList.remove("btn-active");
   timeBtn.classList.remove("btn-active");
