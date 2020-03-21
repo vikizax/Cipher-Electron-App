@@ -13,7 +13,6 @@ const showAlert = (msg, type) => {
 // set java path env
 let javaPath = "";
 findJavaHome({ allowJre: true }, (err, home) => {
-
   if (err || !home) {
     let msg = err
       ? err.message
@@ -76,14 +75,22 @@ const init = () => {
   // state of file mode
   let fileModeToggle = false;
 
+  // file properties
+  let fileNameEncrypt;
+  let fileNameDecrypt;
+  let fileEncryptDir;
+  let fileDecryptDir;
+
   // reset all form
   const resetForms = () => {
     const defaultLabelText = "Choose a file";
+    // reset form
     fHill.reset();
     fPlayfair.reset();
     fVernam.reset();
     fVigenere.reset();
 
+    // reset fie selector labels
     hillELabel.textContent = defaultLabelText;
     hillDLabel.textContent = defaultLabelText;
     playFairELabel.textContent = defaultLabelText;
@@ -92,6 +99,12 @@ const init = () => {
     vigenereDLabel.textContent = defaultLabelText;
     vernamELabel.textContent = defaultLabelText;
     vernamDLabel.textContent = defaultLabelText;
+
+    // reset file properties
+    fileNameEncrypt = null;
+    fileNameDecrypt = null;
+    fileEncryptDir = null;
+    fileDecryptDir = null;
   };
 
   // hide the required inputs and show file selector for file mode
@@ -303,12 +316,6 @@ const init = () => {
 
   const fileOutVernamEncrypt = document.querySelector("#file-e-vrout");
   const fileOutVernamDecrypt = document.querySelector("#file-d-vrout");
-
-  // file properties
-  let fileNameEncrypt;
-  let fileNameDecrypt;
-  let fileEncryptDir;
-  let fileDecryptDir;
 
   // section toggler
   const cipherSectionVisibilityToggleOff = () => {
@@ -604,6 +611,12 @@ const init = () => {
         showAlert("Key or Output File Name cannot be empty! 🤚");
         return;
       }
+
+      if (!fileNameEncrypt || !fileEncryptDir) {
+        showAlert("Ops, You forgot to select a file !😄");
+        return;
+      }
+
       let result = await callJavaFile(
         3,
         keyTextEncrypt.value.replace(/\s+/g, ""),
@@ -648,6 +661,11 @@ const init = () => {
         outputFileName.value.replace(/\s+/g, "").length === 0
       ) {
         showAlert("Key or Output File Name cannot be empty! 🤚");
+        return;
+      }
+
+      if (!fileNameDecrypt || !fileDecryptDir) {
+        showAlert("Ops, You forgot to select a file !😄");
         return;
       }
 
@@ -703,6 +721,11 @@ const init = () => {
         return;
       }
 
+      if (!fileNameEncrypt || !fileEncryptDir) {
+        showAlert("Ops, You forgot to select a file !😄");
+        return;
+      }
+
       let result = await callJavaFile(
         3,
         keyTextEncrypt.value.replace(/\s+/g, ""),
@@ -751,6 +774,11 @@ const init = () => {
         outputFileName.value.replace(/\s+/g, "").length === 0
       ) {
         showAlert("Key or Output File Name cannot be empty! 🤚");
+        return;
+      }
+
+      if (!fileNameDecrypt || !fileDecryptDir) {
+        showAlert("Ops, You forgot to select a file !😄");
         return;
       }
 
@@ -806,6 +834,11 @@ const init = () => {
         return;
       }
 
+      if (!fileNameEncrypt || !fileEncryptDir) {
+        showAlert("Ops, You forgot to select a file !😄");
+        return;
+      }
+
       let result = await callJavaFile(
         3,
         keyTextEncrypt.value.replace(/\s+/g, ""),
@@ -852,6 +885,11 @@ const init = () => {
         outputFileName.value.replace(/\s+/g, "").length === 0
       ) {
         showAlert("Key or Output File Name cannot be empty! 🤚");
+        return;
+      }
+
+      if (!fileNameDecrypt || !fileDecryptDir) {
+        showAlert("Ops, You forgot to select a file !😄");
         return;
       }
 
@@ -906,6 +944,11 @@ const init = () => {
         return;
       }
 
+      if (!fileNameEncrypt || !fileEncryptDir) {
+        showAlert("Ops, You forgot to select a file !😄");
+        return;
+      }
+
       let result = await callJavaFile(
         3,
         keyTextEncrypt.value.replace(/\s+/g, ""),
@@ -950,6 +993,11 @@ const init = () => {
         outputFileName.value.replace(/\s+/g, "").length === 0
       ) {
         showAlert("Key or Output File Name cannot be empty! 🤚");
+        return;
+      }
+
+      if (!fileNameDecrypt || !fileDecryptDir) {
+        showAlert("Ops, You forgot to select a file !😄");
         return;
       }
 
