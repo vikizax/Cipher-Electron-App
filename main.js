@@ -1,5 +1,5 @@
 const { app, BrowserWindow, Menu } = require("electron");
-const path = require("path");
+const { join, sep } = require("path");
 const { ipcMain } = require("electron");
 
 let win;
@@ -14,11 +14,11 @@ function createWindow() {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: __dirname + "/app-ico.png"
+    icon: __dirname + sep + "app-ico.png"
   });
 
   // and load the index.html of the app.
-  win.loadFile(path.join(__dirname, "src/index.html"));
+  win.loadFile(join(__dirname, `src${sep}index.html`));
 
   if (process.env.NODE_ENV === "development") {
     // // Open the DevTools.
