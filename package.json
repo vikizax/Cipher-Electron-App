@@ -26,15 +26,6 @@
     "icon": "./app-ico.png",
     "win": {
       "icon": "./app-ico.png",
-      "target": [
-        "nsis",
-        "zip",
-        "msi"
-      ]
-    },
-    "linux": {
-      "icon": "./app-ico.png",
-      "target": "apk"
-    }
+      "target": "nsis"
   }
 }
