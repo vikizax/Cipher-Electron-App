@@ -1,3 +1,4 @@
+
 /**
  * Hill cipher
  * three inputs to provide as command line argument
@@ -87,9 +88,9 @@ public class HillCipher {
             // message length
             int messageLen = message.length();
 
-            if (messageLen < keyLen) {
+            if (messageLen <= keyLen && keyLen % messageLen != 0) {
                 System.out.println(
-                        "Err: Message length should be equal to or greater then Key length (blank space is not counted)");
+                        "Err: Message length is not compatible, make it equal to Key length or increase | decrease length of message (blank space is not counted)");
                 System.exit(0);
             }
 
@@ -235,7 +236,8 @@ public class HillCipher {
             // total execution time
             double totalElapsedTime = (double) ((endTime - startTime) / 1_000_000_000.0);
 
-            System.out.println("Res: " +totalElapsedTime + " " + bytesToMegabytes(memory) + " " + cpuTime + " " + result);
+            System.out.println(
+                    "Res: " + totalElapsedTime + " " + bytesToMegabytes(memory) + " " + cpuTime + " " + result);
         } catch (ArithmeticException e) {
             System.out.println("Err: Multiplicative inverse is not possible for the key. Please choose another key.");
             System.exit(0);
@@ -259,8 +261,7 @@ public class HillCipher {
     }
 
     // inverse key mat in mod 26
-    public double[][] inverseKeyMatMod(int keyMatLen, double keyInverse[][], double determinant,
-            BigInteger invDet) {
+    public double[][] inverseKeyMatMod(int keyMatLen, double keyInverse[][], double determinant, BigInteger invDet) {
         // inverse in modulo 26
         for (int i = 0; i < keyMatLen; ++i) {
             for (int j = 0; j < keyMatLen; ++j) {
