@@ -1,8 +1,18 @@
-const util = require("util");
-const exec = util.promisify(require("child_process").exec);
+const { promisify } = require("util");
+const exec = promisify(require("child_process").exec);
 const { ipcRenderer } = require("electron");
-const Chart = require("chart.js");
+const { Chart } = require("chart.js");
 const path = require("path");
+
+require("find-java-home")(
+  ({ allowJre: true },
+  (err, home) => {
+    if (err) return console.log(err);
+    console.log(home);
+  })
+);
+
+// java path
 
 // encrypt process inputs
 const hillEncrypt = document.querySelector("#hill-encrypt-btn");
@@ -336,7 +346,7 @@ const callJava = async function(option, key, msg, cipher, element) {
   let output;
   const childFun = async path => {
     const { stderr, stdout } = await exec(
-      `java -cp "${path}" "${cipher}" "${option}" "${key}" "${msg}"`
+      `java -jar "${path}" "${cipher}" "${option}" "${key}" "${msg}"`
     );
 
     output = stdout.split("Res: ");
@@ -361,9 +371,11 @@ const callJava = async function(option, key, msg, cipher, element) {
 
   try {
     if (process.env.NODE_ENV === "development") {
-      return await childFun("./src/cipher_java_class/");
+      return await childFun("./extraResources/cipher.jar");
     } else {
-      return await childFun(`${process.resourcesPath}/extraResources/`);
+      return await childFun(
+        `${process.resourcesPath}/extraResources/cipher.jar`
+      );
     }
   } catch (e) {
     showAlert("Something went wrong ! 😞", "error");
@@ -382,7 +394,7 @@ const callJavaFile = async (
   let output;
   const childFun = async path => {
     const { stderr, stdout } = await exec(
-      `java -cp "${path}" "${cipher}" "${option}" "${key}" "${fileName}" "${outputFileName}.txt" "${dir}"`
+      `java -jar "${path}" "${cipher}" "${option}" "${key}" "${fileName}" "${outputFileName}.txt" "${dir}"`
     );
 
     output = stdout.split("Res: ");
@@ -402,9 +414,11 @@ const callJavaFile = async (
 
   try {
     if (process.env.NODE_ENV === "development") {
-      return await childFun("./src/cipher_java_class/");
+      return await childFun("./extraResources/cipher.jar");
     } else {
-      return await childFun(`${process.resourcesPath}/extraResources/`);
+      return await childFun(
+        `${process.resourcesPath}/extraResources/cipher.jar`
+      );
     }
   } catch (e) {
     showAlert("Something went wrong ! 😞", "error");
@@ -1014,8 +1028,6 @@ performanceAction.addEventListener("click", async e => {
     "VigenereCipher"
   );
 
-  console.log(resultArr);
-
   // round values
   // total execution time
   resultArr[0][0] = parseFloat(resultArr[0][0]).toPrecision(2);
@@ -1124,7 +1136,6 @@ hillFileEncrypt.addEventListener("change", e => {
   }
 
   hillELabel.textContent = e.target.files[0].name;
-
   encryptFileState(
     e.target.files[0].name,
     path.parse(e.target.files[0].path).dir

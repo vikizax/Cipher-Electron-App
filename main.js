@@ -1,7 +1,10 @@
 const { app, BrowserWindow, Menu } = require("electron");
 const path = require("path");
 const { ipcMain } = require("electron");
-require("electron-reload")(__dirname);
+if (process.env.NODE_ENV === "developement") {
+  require("electron-reload")(__dirname);
+}
+
 let win;
 
 function createWindow() {

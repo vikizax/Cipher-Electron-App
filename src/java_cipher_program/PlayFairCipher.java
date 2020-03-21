@@ -18,13 +18,13 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
 public class PlayFairCipher {
-    private static final double MEGABYTE = 1024 * 1024;
+    private final double MEGABYTE = 1024 * 1024;
 
-    public static double bytesToMegabytes(long bytes) {
+    public double bytesToMegabytes(long bytes) {
         return (double) (bytes / MEGABYTE);
     }
 
-    public static void main(String[] args) {
+    public void init(String[] args) {
         long startTime = System.nanoTime();
         FileOperation file = new FileOperation();
         OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBean(OperatingSystemMXBean.class);
@@ -129,7 +129,7 @@ public class PlayFairCipher {
     }
 
     // create and add changes to file
-    public static void fileAdd(FileOperation file, String outputFileName, String dir, String result) {
+    public void fileAdd(FileOperation file, String outputFileName, String dir, String result) {
         try {
             if (file.createFile(outputFileName, dir)) {
                 file.write(outputFileName, dir, result);
@@ -142,7 +142,7 @@ public class PlayFairCipher {
     }
 
     // return unique character excluding from keyword
-    public static char alphabetLoop(char current, String keyword) {
+    public char alphabetLoop(char current, String keyword) {
         char resultChar = '\0';
 
         for (int i = (current % 65); i <= 26; ++i) {
@@ -156,7 +156,7 @@ public class PlayFairCipher {
     }
 
     // generates key matrix
-    public static char[][] generateKeyMatrix(String keyword) {
+    public char[][] generateKeyMatrix(String keyword) {
         char keyMat[][] = new char[5][5];
         boolean keyFilledInMatrix = false;
         // int contRow = 0, contCol = 0;
@@ -186,7 +186,7 @@ public class PlayFairCipher {
     }
 
     // find the position of the given character in the key matrix
-    public static String findCharInKeyMat(char toFind, char[][] keyMat) {
+    public String findCharInKeyMat(char toFind, char[][] keyMat) {
         toFind = toFind == 'J' ? 'I' : toFind;
         for (int i = 0; i < 5; ++i)
             for (int j = 0; j < 5; ++j)
@@ -196,7 +196,7 @@ public class PlayFairCipher {
     }
 
     // Play fair Cipher Encryption
-    public static String encrypt(char[][] keyMat, String plainText) {
+    public String encrypt(char[][] keyMat, String plainText) {
 
         String encryptedText = "";
 
@@ -263,7 +263,7 @@ public class PlayFairCipher {
     }
 
     // Play fair Cipher Decryption
-    public static String decrypt(char[][] keyMat, String cipherText) {
+    public String decrypt(char[][] keyMat, String cipherText) {
 
         String plainText = "";
 

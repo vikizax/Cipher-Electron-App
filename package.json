@@ -11,11 +11,12 @@
   "license": "ISC",
   "devDependencies": {
     "electron": "^8.1.1",
-    "electron-builder": "^22.4.1"
+    "electron-builder": "^22.4.1",
+    "electron-reload": "^1.5.0"
   },
   "dependencies": {
     "chart.js": "^2.9.3",
-    "electron-reload": "^1.5.0"
+    "find-java-home": "^1.1.0"
   },
   "build": {
     "appId": "com.acipher.app",
@@ -26,7 +27,7 @@
     "icon": "./app-ico.png",
     "win": {
       "icon": "./app-ico.png",
-      "target": "NSIS"
+      "target": "portable"
     }
   }
 }

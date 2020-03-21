@@ -18,13 +18,13 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
 public class VernamCipher {
-    private static final double MEGABYTE = 1024 * 1024;
+    private final double MEGABYTE = 1024 * 1024;
 
-    public static double bytesToMegabytes(long bytes) {
+    public double bytesToMegabytes(long bytes) {
         return (double) (bytes / MEGABYTE);
     }
 
-    public static void main(String[] args) {
+    public void init(String[] args) {
 
         long startTime = System.nanoTime();
         FileOperation file = new FileOperation();
@@ -118,7 +118,7 @@ public class VernamCipher {
     }
 
     // create and add changes to file
-    public static void fileAdd(FileOperation file, String outputFileName, String dir, String result) {
+    public void fileAdd(FileOperation file, String outputFileName, String dir, String result) {
         try {
             if (file.createFile(outputFileName, dir)) {
                 file.write(outputFileName, dir, result);
@@ -131,7 +131,7 @@ public class VernamCipher {
     }
 
     // makes key length equal to plain text length
-    public static String generateKey(String keyWord, int plainTextLength) {
+    public String generateKey(String keyWord, int plainTextLength) {
         String finalKeyword = keyWord;
         int alphaIter = 0;
         while (finalKeyword.length() != plainTextLength) {
@@ -146,7 +146,7 @@ public class VernamCipher {
     }
 
     // Vernam encryption
-    public static String encrypt(String key, String plainText) {
+    public String encrypt(String key, String plainText) {
         String cipher = "";
 
         for (int i = 0; i < plainText.length(); ++i) {
@@ -157,7 +157,7 @@ public class VernamCipher {
     }
 
     // Vernam decryption
-    public static String decrypt(String key, String cipherText) {
+    public String decrypt(String key, String cipherText) {
         String message = "";
 
         for (int i = 0; i < cipherText.length(); ++i) {

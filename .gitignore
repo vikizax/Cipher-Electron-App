@@ -4,3 +4,6 @@ dist
 #files
 *.tgz
 *.log
+
+# exclude class file
+src/java_cipher_program/*.class

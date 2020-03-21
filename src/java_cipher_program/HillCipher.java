@@ -20,13 +20,13 @@ import java.lang.management.ManagementFactory;
 import java.math.*;
 
 public class HillCipher {
-    private static final double MEGABYTE = 1024 * 1024;
+    private final double MEGABYTE = 1024 * 1024;
 
-    public static double bytesToMegabytes(long bytes) {
+    public double bytesToMegabytes(long bytes) {
         return (double) (bytes / MEGABYTE);
     }
 
-    public static void main(String[] args) {
+    public void init(String[] args) {
         // start time
         long startTime = System.nanoTime();
         String result = "";
@@ -246,7 +246,7 @@ public class HillCipher {
     }
 
     // create and add changes to file
-    public static void fileAdd(FileOperation file, String outputFileName, String dir, String result) {
+    public void fileAdd(FileOperation file, String outputFileName, String dir, String result) {
         try {
             if (file.createFile(outputFileName, dir)) {
                 file.write(outputFileName, dir, result);
@@ -259,7 +259,7 @@ public class HillCipher {
     }
 
     // inverse key mat in mod 26
-    public static double[][] inverseKeyMatMod(int keyMatLen, double keyInverse[][], double determinant,
+    public double[][] inverseKeyMatMod(int keyMatLen, double keyInverse[][], double determinant,
             BigInteger invDet) {
         // inverse in modulo 26
         for (int i = 0; i < keyMatLen; ++i) {
@@ -273,7 +273,7 @@ public class HillCipher {
     }
 
     // Encrypt or Decrypt a message
-    public static String HillOperation(int completeMessageMatLen, int completeMessageMat[], int keyMatLen,
+    public String HillOperation(int completeMessageMatLen, int completeMessageMat[], int keyMatLen,
             double keyMatOrInverse[][]) {
 
         // 1d array to store the encrypted/decrypted value of the message
@@ -335,7 +335,7 @@ public class HillCipher {
     }
 
     // get the determinante of the given n x n matrix
-    public static double determinant(double keyMat[][], int keyMatLen) {
+    public double determinant(double keyMat[][], int keyMatLen) {
         double det = 0, sign = 1;
         int p = 0, q = 0;
 
@@ -365,7 +365,7 @@ public class HillCipher {
     }
 
     // inverse the matrix using row operation
-    public static double[][] invert(double a[][]) {
+    public double[][] invert(double a[][]) {
         int n = a.length;
         double x[][] = new double[n][n];
         double b[][] = new double[n][n];
@@ -397,7 +397,7 @@ public class HillCipher {
     }
 
     // carry out the partial-pivoting gaussian elimination
-    public static void gaussian(double a[][], int index[]) {
+    public void gaussian(double a[][], int index[]) {
         // index[] stores pivoting order.
         int n = index.length;
         double c[] = new double[n];
