@@ -1,6 +1,6 @@
 {
   "name": "cipher",
-  "version": "2.2.4",
+  "version": "2.2.6",
   "description": "App to encrypt and decrypt text",
   "main": "main.js",
   "scripts": {
@@ -11,8 +11,7 @@
   "license": "ISC",
   "devDependencies": {
     "electron": "^8.1.1",
-    "electron-builder": "^22.4.1",
-    "electron-reload": "^1.5.0"
+    "electron-builder": "^22.4.1"
   },
   "dependencies": {
     "chart.js": "^2.9.3",
@@ -27,7 +26,15 @@
     "icon": "./app-ico.png",
     "win": {
       "icon": "./app-ico.png",
-      "target": "portable"
+      "target": [
+        "nsis",
+        "zip",
+        "msi"
+      ]
+    },
+    "linux": {
+      "icon": "./app-ico.png",
+      "target": "apk"
     }
   }
 }

@@ -1,9 +1,6 @@
 const { app, BrowserWindow, Menu } = require("electron");
 const path = require("path");
 const { ipcMain } = require("electron");
-if (process.env.NODE_ENV === "developement") {
-  require("electron-reload")(__dirname);
-}
 
 let win;
 

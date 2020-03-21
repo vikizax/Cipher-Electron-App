@@ -2,23 +2,25 @@ const { promisify } = require("util");
 const exec = promisify(require("child_process").exec);
 const { ipcRenderer } = require("electron");
 const { Chart } = require("chart.js");
-const path = require("path");
+const { parse, sep, join } = require("path");
+const findJavaHome = require("find-java-home");
 
 // show native alert window
 const showAlert = (msg, type) => {
   ipcRenderer.send("showAlert", msg, type);
 };
 
-require("find-java-home")(
-  ({ allowJre: true },
-  (err, home) => {
-    if (err) {
-      showAlert(err.message, "error");
-      return console.log(err.message);
-    }
-    console.log(home);
-  })
-);
+// set java path env
+let javaPath = "";
+findJavaHome({ allowJre: true }, (err, home) => {
+  if (err) {
+    showAlert(err.message, "error");
+    return console.log(err.message);
+  }
+  javaPath = home ? `${home}${sep}bin${sep}` : "java";
+
+  init();
+});
 
 // java path
 
@@ -361,7 +363,10 @@ const init = () => {
     let output;
     const childFun = async path => {
       const { stderr, stdout } = await exec(
-        `java -jar "${path}" "${cipher}" "${option}" "${key}" "${msg}"`
+        `java -jar "${path}" "${cipher}" "${option}" "${key}" "${msg}"`,
+        {
+          cwd: javaPath
+        }
       );
 
       output = stdout.split("Res: ");
@@ -386,14 +391,16 @@ const init = () => {
 
     try {
       if (process.env.NODE_ENV === "development") {
-        return await childFun("./extraResources/cipher.jar");
+        return await childFun(
+          join(__dirname, `..${sep}extraResources${sep}cipher.jar`)
+        );
       } else {
         return await childFun(
-          `${process.resourcesPath}/extraResources/cipher.jar`
+          `${process.resourcesPath}${sep}extraResources${sep}cipher.jar`
         );
       }
     } catch (e) {
-      showAlert("Something went wrong ! 😞", "error");
+      showAlert("Something went wrong ! 😞\n" + e.message, "error");
     }
   };
 
@@ -409,7 +416,10 @@ const init = () => {
     let output;
     const childFun = async path => {
       const { stderr, stdout } = await exec(
-        `java -jar "${path}" "${cipher}" "${option}" "${key}" "${fileName}" "${outputFileName}.txt" "${dir}"`
+        `java -jar "${path}" "${cipher}" "${option}" "${key}" "${fileName}" "${outputFileName}.txt" "${dir}"`,
+        {
+          cwd: javaPath
+        }
       );
 
       output = stdout.split("Res: ");
@@ -429,10 +439,12 @@ const init = () => {
 
     try {
       if (process.env.NODE_ENV === "development") {
-        return await childFun("./extraResources/cipher.jar");
+        return await childFun(
+          join(__dirname, `..${sep}extraResources${sep}cipher.jar`)
+        );
       } else {
         return await childFun(
-          `${process.resourcesPath}/extraResources/cipher.jar`
+          `${process.resourcesPath}${sep}extraResources${sep}cipher.jar`
         );
       }
     } catch (e) {
@@ -1154,10 +1166,7 @@ const init = () => {
     }
 
     hillELabel.textContent = e.target.files[0].name;
-    encryptFileState(
-      e.target.files[0].name,
-      path.parse(e.target.files[0].path).dir
-    );
+    encryptFileState(e.target.files[0].name, parse(e.target.files[0].path).dir);
   });
 
   hillFileDecrypt.addEventListener("change", e => {
@@ -1167,10 +1176,7 @@ const init = () => {
 
     hillDLabel.textContent = e.target.files[0].name;
 
-    decryptFileState(
-      e.target.files[0].name,
-      path.parse(e.target.files[0].path).dir
-    );
+    decryptFileState(e.target.files[0].name, parse(e.target.files[0].path).dir);
   });
 
   playFairFileEncrypt.addEventListener("change", e => {
@@ -1180,10 +1186,7 @@ const init = () => {
 
     playFairELabel.textContent = e.target.files[0].name;
 
-    encryptFileState(
-      e.target.files[0].name,
-      path.parse(e.target.files[0].path).dir
-    );
+    encryptFileState(e.target.files[0].name, parse(e.target.files[0].path).dir);
   });
 
   playFairFileDecrypt.addEventListener("change", e => {
@@ -1193,10 +1196,7 @@ const init = () => {
 
     playFairDLabel.textContent = e.target.files[0].name;
 
-    decryptFileState(
-      e.target.files[0].name,
-      path.parse(e.target.files[0].path).dir
-    );
+    decryptFileState(e.target.files[0].name, parse(e.target.files[0].path).dir);
   });
 
   vigenereFileEncrypt.addEventListener("change", e => {
@@ -1206,10 +1206,7 @@ const init = () => {
 
     vigenereELabel.textContent = e.target.files[0].name;
 
-    encryptFileState(
-      e.target.files[0].name,
-      path.parse(e.target.files[0].path).dir
-    );
+    encryptFileState(e.target.files[0].name, parse(e.target.files[0].path).dir);
   });
 
   vigenereFileDecrypt.addEventListener("change", e => {
@@ -1219,10 +1216,7 @@ const init = () => {
 
     vigenereDLabel.textContent = e.target.files[0].name;
 
-    decryptFileState(
-      e.target.files[0].name,
-      path.parse(e.target.files[0].path).dir
-    );
+    decryptFileState(e.target.files[0].name, parse(e.target.files[0].path).dir);
   });
 
   vernamFileEncrypt.addEventListener("change", e => {
@@ -1232,10 +1226,7 @@ const init = () => {
 
     vernamELabel.textContent = e.target.files[0].name;
 
-    encryptFileState(
-      e.target.files[0].name,
-      path.parse(e.target.files[0].path).dir
-    );
+    encryptFileState(e.target.files[0].name, parse(e.target.files[0].path).dir);
   });
 
   vernamFileDecrypt.addEventListener("change", e => {
@@ -1245,9 +1236,6 @@ const init = () => {
 
     vernamDLabel.textContent = e.target.files[0].name;
 
-    decryptFileState(
-      e.target.files[0].name,
-      path.parse(e.target.files[0].path).dir
-    );
+    decryptFileState(e.target.files[0].name, parse(e.target.files[0].path).dir);
   });
 };
