@@ -13,9 +13,12 @@ const showAlert = (msg, type) => {
 // set java path env
 let javaPath = "";
 findJavaHome({ allowJre: true }, (err, home) => {
-  if (err) {
-    showAlert(err.message, "error");
-    return console.log(err.message);
+
+  if (err || !home) {
+    let msg = err
+      ? err.message
+      : "Java Run Time not found.\nPlease install jre or jdk version  1.8 or later! ⚒";
+    return showAlert(msg, "error");
   }
   javaPath = home ? `${home}${sep}bin${sep}` : "java";
 
