@@ -27,5 +27,6 @@
     "win": {
       "icon": "./app-ico.png",
       "target": "nsis"
+    }
   }
 }
