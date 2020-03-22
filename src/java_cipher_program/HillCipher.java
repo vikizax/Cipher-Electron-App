@@ -63,7 +63,7 @@ public class HillCipher {
 
             option = args[0];
             // take in key and1 remove all white space from it
-            key = args[1].replaceAll("\\s+", "");
+            key = args[1].replaceAll("\\s+", "").toUpperCase();
 
             // check if key or plain text contains numerics or special characters
             if (message.matches("^[a-zA-Z]*$") == false || key.matches("^[a-zA-Z]*$") == false) {
@@ -88,12 +88,6 @@ public class HillCipher {
             // message length
             int messageLen = message.length();
 
-            if (messageLen <= keyLen && keyLen % messageLen != 0) {
-                System.out.println(
-                        "Err: Message length is not compatible, make it equal to Key length or increase | decrease length of message (blank space is not counted)");
-                System.exit(0);
-            }
-
             // n x n feasibility check
             if (keyLen != keyMatLen * keyMatLen) {
                 System.out.println("Err: n x n is not possible, please increase/decrease the key length");
@@ -111,6 +105,7 @@ public class HillCipher {
                     charPos++;
                 }
             }
+
             // determing the size of array to store all the message matrix as a 1d array
             // eg: [ [1,2,3], [4,5,6], ... ] -> [1,2,3,4,5,6, ....]
             // size of the message 1d array
@@ -142,7 +137,7 @@ public class HillCipher {
             for (int j = 0; j < completeMessageMatLen; j++) {
                 // replace the empty place with 'A' = 1
                 if (messageIter >= messageLen) {
-                    completeMessageMat[j] = 1;
+                    completeMessageMat[j] = 23;
                 } else {
                     completeMessageMat[j] = Character.toUpperCase(message.charAt(messageIter)) % 65;
                 }
@@ -166,7 +161,6 @@ public class HillCipher {
                      */
 
                     determinant = determinant(keyMat, keyMatLen);
-
                     if (determinant == 0) {
                         System.out.println("Err: Cannot Proceed, not invertible key.");
                         System.exit(0);
@@ -176,10 +170,12 @@ public class HillCipher {
                     mod = new BigInteger("26");
                     // multiplicative inverse of determinant
                     invDet = det.modInverse(mod);
+
                     double keyInverse[][] = invert(keyMat);
 
+                    transposeNormalised(keyInverse, keyMatLen, determinant);
                     // inverse in modulo 26
-                    keyInverse = inverseKeyMatMod(keyMatLen, keyInverse, determinant, invDet);
+                    keyInverse = inverseKeyMatMod(keyMatLen, keyInverse, invDet);
 
                     result = HillOperation(completeMessageMatLen, completeMessageMat, keyMatLen, keyInverse);
 
@@ -208,8 +204,9 @@ public class HillCipher {
                     invDet = det.modInverse(mod);
                     double keyInv[][] = invert(keyMat);
 
+                    transposeNormalised(keyInv, keyMatLen, determinant);
                     // inverse in modulo 26
-                    keyInverse = inverseKeyMatMod(keyMatLen, keyInv, determinant, invDet);
+                    keyInverse = inverseKeyMatMod(keyMatLen, keyInv, invDet);
 
                     result = HillOperation(completeMessageMatLen, completeMessageMat, keyMatLen, keyInverse);
 
@@ -260,14 +257,32 @@ public class HillCipher {
         }
     }
 
+    // normalise matrix inverse to transposed of the matrix with non negative value
+    public void transposeNormalised(double keyInverse[][], int keyMatLen, double determinant) {
+        // get the transpose matrix from the inverse generated
+        for (int i = 0; i < keyMatLen; i++) {
+            for (int j = 0; j < keyMatLen; j++) {
+                keyInverse[i][j] = Math.round(keyInverse[i][j] * determinant);
+            }
+        }
+        // remove the negative values
+        for (int i = 0; i < keyMatLen; i++) {
+            for (int j = 0; j < keyMatLen; j++) {
+                if (keyInverse[i][j] < 0) {
+                    keyInverse[i][j] = keyInverse[i][j] + 26;
+                }
+            }
+        }
+    }
+
     // inverse key mat in mod 26
-    public double[][] inverseKeyMatMod(int keyMatLen, double keyInverse[][], double determinant, BigInteger invDet) {
+    public double[][] inverseKeyMatMod(int keyMatLen, double keyInverse[][], BigInteger invDet) {
         // inverse in modulo 26
         for (int i = 0; i < keyMatLen; ++i) {
             for (int j = 0; j < keyMatLen; ++j) {
-                keyInverse[i][j] = (int) (keyInverse[i][j] * determinant * invDet.intValue() % 26);
-                if (keyInverse[i][j] < 0)
-                    keyInverse[i][j] = keyInverse[i][j] + 26;
+                keyInverse[i][j] = (int) (keyInverse[i][j] * invDet.intValue());
+                if (keyInverse[i][j] > 25)
+                    keyInverse[i][j] = keyInverse[i][j] % 26;
             }
         }
         return keyInverse;

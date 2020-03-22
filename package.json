@@ -1,6 +1,6 @@
 {
   "name": "cipher",
-  "version": "2.2.8",
+  "version": "2.3.0",
   "description": "App to encrypt and decrypt text",
   "main": "main.js",
   "scripts": {
