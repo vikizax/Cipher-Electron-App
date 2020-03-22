@@ -259,17 +259,15 @@ public class HillCipher {
 
     // normalise matrix inverse to transposed of the matrix with non negative value
     public void transposeNormalised(double keyInverse[][], int keyMatLen, double determinant) {
+        BigInteger valueX, mod;
         // get the transpose matrix from the inverse generated
         for (int i = 0; i < keyMatLen; i++) {
             for (int j = 0; j < keyMatLen; j++) {
                 keyInverse[i][j] = Math.round(keyInverse[i][j] * determinant);
-            }
-        }
-        // remove the negative values
-        for (int i = 0; i < keyMatLen; i++) {
-            for (int j = 0; j < keyMatLen; j++) {
                 if (keyInverse[i][j] < 0) {
-                    keyInverse[i][j] = keyInverse[i][j] + 26;
+                    valueX = new BigInteger("" + (int) keyInverse[i][j]);
+                    mod = new BigInteger("26");
+                    keyInverse[i][j] = valueX.mod(mod).intValue();
                 }
             }
         }
@@ -280,9 +278,9 @@ public class HillCipher {
         // inverse in modulo 26
         for (int i = 0; i < keyMatLen; ++i) {
             for (int j = 0; j < keyMatLen; ++j) {
-                keyInverse[i][j] = (int) (keyInverse[i][j] * invDet.intValue());
-                if (keyInverse[i][j] > 25)
-                    keyInverse[i][j] = keyInverse[i][j] % 26;
+                keyInverse[i][j] = (int) (keyInverse[i][j] * invDet.intValue()) % 26;
+                // if (keyInverse[i][j] > 25)
+                // keyInverse[i][j] = keyInverse[i][j] % 26;
             }
         }
         return keyInverse;
